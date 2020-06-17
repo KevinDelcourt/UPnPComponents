@@ -13,27 +13,19 @@ import java.util.function.Consumer;
 
 public class AndroidUpnpServiceStore {
 
-    private static AndroidUpnpService upnpService;
-
-    public static void bindAndroidUpnpService(Activity activity, Consumer<AndroidUpnpService> callback) {
+    public static void bindAndroidUpnpService(Activity activity, Consumer<AndroidUpnpService> connectedCallback, Runnable disconnectedCallback) {
         activity.getApplicationContext().bindService(
                 new Intent(activity, AndroidUpnpServiceImpl.class),
                 new ServiceConnection() {
 
                     public void onServiceConnected(ComponentName className, IBinder service) {
-                        upnpService = (AndroidUpnpService) service;
-                        callback.accept(upnpService);
+                        connectedCallback.accept((AndroidUpnpService) service);
                     }
                     public void onServiceDisconnected(ComponentName className) {
-                        upnpService = null;
+                        disconnectedCallback.run();
                     }
                 },
                 Context.BIND_AUTO_CREATE
         );
     }
-
-    public static AndroidUpnpService getUpnpService(){
-        return upnpService;
-    }
-
 }
