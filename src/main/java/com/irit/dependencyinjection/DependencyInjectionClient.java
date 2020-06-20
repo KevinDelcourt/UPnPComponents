@@ -24,16 +24,14 @@ public class DependencyInjectionClient implements Runnable {
                 public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
 
                     for(Device device : upnpService.getRegistry().getDevices()){
-                        for(RequiredBinding requiredBind : dependencyInjectionService.getRequired().values()) {
-                            if(device.getIdentity().getUdn().toString().equals(requiredBind.getDesiredUDN()) &&
-                                    device.findService(requiredBind.getServiceId()) != null) {
-                                System.out.println("ok " + device);
-                                requiredBind.setDevice(device);
-                            }
+                        System.out.println(device.getIdentity().getUdn().toString() + " vs " + requiredBinding.getDesiredUDN());
+                        if(device.getIdentity().getUdn().toString().equals(requiredBinding.getDesiredUDN()) &&
+                                device.findService(requiredBinding.getServiceId()) != null) {
+                            System.out.println("ok " + device);
+                            requiredBinding.setDevice(device);
                         }
-                    }
 
-                    upnpService.getRegistry().getDevices();
+                    }
                 }
             });
         }

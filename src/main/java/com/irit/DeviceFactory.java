@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class DeviceFactory {
 
-    public static LocalDevice makeAndroidLocalDevice(
+    public static LocalDevice makeLocalDevice(
             String deviceName,
             String description,
             int versionNumber,
