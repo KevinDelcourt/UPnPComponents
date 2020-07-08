@@ -19,7 +19,7 @@ public class AndroidUpnpServiceStore {
 
     private static ServiceConnection serviceConnection;
 
-    public static void bindAndroidUpnpService(Activity activity, final Consumer<UpnpService> callback) {
+    public static void bindAndroidUpnpService(Context context, final Consumer<UpnpService> callback) {
 
         serviceConnection = new ServiceConnection() {
             public void onServiceConnected(ComponentName className, IBinder service) {
@@ -32,8 +32,8 @@ public class AndroidUpnpServiceStore {
             }
         };
 
-        activity.getApplicationContext().bindService(
-                new Intent(activity, AndroidUpnpServiceImpl.class),
+        context.bindService(
+                new Intent(context, AndroidUpnpServiceImpl.class),
                 serviceConnection,
                 Context.BIND_AUTO_CREATE
         );
