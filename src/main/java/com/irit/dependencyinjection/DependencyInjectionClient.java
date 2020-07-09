@@ -24,8 +24,7 @@ public class DependencyInjectionClient implements Runnable {
                 public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
                     boolean bound = false;
                     for(Device device : upnpService.getRegistry().getDevices()){
-                        bindIfDeviceRequired(device, requiredBinding);
-                        bound = true;
+                        bound = bindIfDeviceRequired(device, requiredBinding);
                     }
 
                     if(!bound) {
@@ -36,16 +35,19 @@ public class DependencyInjectionClient implements Runnable {
         }
     }
 
-    private void bindIfDeviceRequired(Device device, RequiredBinding requiredBinding){
+    private boolean bindIfDeviceRequired(Device device, RequiredBinding requiredBinding){
         if(device.getIdentity().getUdn().toString().equals(requiredBinding.getDesiredUDN()) &&
                 device.findService(requiredBinding.getServiceId()) != null) {
             System.out.println("ok " + device);
             requiredBinding.setDevice(device);
-        }else{
-            for( Device embedded : device.getEmbeddedDevices()){
-                bindIfDeviceRequired(embedded, requiredBinding);
-            }
+            return true;
         }
+
+        for( Device embedded : device.getEmbeddedDevices()){
+            bindIfDeviceRequired(embedded, requiredBinding);
+        }
+
+        return  false;
     }
 
     @Override
