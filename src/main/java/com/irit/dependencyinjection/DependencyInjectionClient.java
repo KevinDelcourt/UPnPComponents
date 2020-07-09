@@ -22,8 +22,14 @@ public class DependencyInjectionClient implements Runnable {
             requiredBinding.addDesiredUDNChangeListener(new PropertyChangeListener() {
                 @Override
                 public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+                    boolean bound = false;
                     for(Device device : upnpService.getRegistry().getDevices()){
                         bindIfDeviceRequired(device, requiredBinding);
+                        bound = true;
+                    }
+
+                    if(!bound) {
+                        requiredBinding.setDevice(null);
                     }
                 }
             });
