@@ -24,7 +24,7 @@ public class DependencyInjectionClient implements Runnable {
                 public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
                     boolean bound = false;
                     for(Device device : upnpService.getRegistry().getDevices()){
-                        bound = bindIfDeviceRequired(device, requiredBinding);
+                        bound = bound || bindIfDeviceRequired(device, requiredBinding);
                     }
 
                     if(!bound) {
@@ -43,11 +43,12 @@ public class DependencyInjectionClient implements Runnable {
             return true;
         }
 
+        boolean bound = false;
         for( Device embedded : device.getEmbeddedDevices()){
-            bindIfDeviceRequired(embedded, requiredBinding);
+            bound = bound || bindIfDeviceRequired(embedded, requiredBinding);
         }
 
-        return  false;
+        return bound;
     }
 
     @Override
