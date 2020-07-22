@@ -21,16 +21,10 @@ public class DeviceFactory {
             String manufacturer,
             LocalService[] services
     ) throws ValidationException {
-        UDN udn;
-        try{
-            udn = UDN.uniqueSystemIdentifier(deviceName);
-        }catch (RuntimeException e){
-            udn = new UDN(UUID.randomUUID());
-        }
 
         return new LocalDevice(
                 new DeviceIdentity(
-                        udn
+                        new UDN(UUID.randomUUID())
                 ),
                 new UDADeviceType(deviceName,versionNumber),
                 new DeviceDetails(
