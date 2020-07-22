@@ -14,12 +14,12 @@ public class DependencyInjectionClientRegistryListener extends DefaultRegistryLi
 
     @Override
     public void remoteDeviceAdded(Registry registry, RemoteDevice device) {
-        System.out.println("hey " + device.getIdentity().toString());
+        System.out.println("Device added : " + device.getIdentity().toString());
 
         for(RequiredBinding requiredBinding : dependencyInjectionService.getRequired().values()) {
             if(device.getIdentity().getUdn().toString().equals(requiredBinding.getDesiredUDN()) &&
                     device.findService(requiredBinding.getServiceId()) != null) {
-                System.out.println("ok " + device);
+                System.out.println("Binding to : " + device);
                 requiredBinding.setDevice(device);
             }
         }
@@ -28,7 +28,7 @@ public class DependencyInjectionClientRegistryListener extends DefaultRegistryLi
 
     @Override
     public void remoteDeviceRemoved(Registry registry, RemoteDevice device) {
-        System.out.println("bye " + device.getIdentity().toString());
+        System.out.println("Device removed : " + device.getIdentity().toString());
 
     }
 }
