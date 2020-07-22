@@ -3,9 +3,15 @@ package com.irit.dependencyinjection;
 import org.fourthline.cling.UpnpService;
 import org.fourthline.cling.model.message.header.STAllHeader;
 import org.fourthline.cling.model.meta.Device;
+import org.fourthline.cling.model.meta.RemoteDevice;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.net.URLConnection;
 
 public class DependencyInjectionClient implements Runnable {
 
@@ -59,9 +65,21 @@ public class DependencyInjectionClient implements Runnable {
                     new DependencyInjectionClientRegistryListener(dependencyInjectionService)
             );
 
-            upnpService.getControlPoint().search(
-                    new STAllHeader()
-            );
+            Timer t = new Timer(3000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    upnpService.getControlPoint().search(3);
+                    for(RemoteDevice remoteDevice : upnpService.getRegistry().getRemoteDevices()) {
+                        try {
+                            URLConnection connection = remoteDevice.getIdentity().getDescriptorURL().openConnection();
+                            connection.getContent();
+                        } catch (IOException e) {
+                            upnpService.getRegistry().removeDevice(remoteDevice);
+                        }
+                    }
+                }
+            });
+            t.start();
 
         } catch (Exception ex) {
             System.err.println("Exception occured: " + ex);
