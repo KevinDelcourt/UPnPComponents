@@ -48,7 +48,7 @@ public class RequiredBinding {
 
     public void execute(String actionName, Map<String,Object> arguments, final Consumer<ActionInvocation> onSuccess){
         if(device == null){
-            System.out.println("No device, no execution.");
+            System.out.println("Can't execute '" + actionName + "' because there is no device bound to " + name);
             return;
         }
 
