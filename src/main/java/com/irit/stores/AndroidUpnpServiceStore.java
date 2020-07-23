@@ -31,21 +31,30 @@ public class AndroidUpnpServiceStore {
             public void onServiceConnected(ComponentName className, IBinder service) {
                 upnpService = (AndroidUpnpService) service;
 
-                Timer t = new Timer(4000, new ActionListener() {
+                Thread thread = new Thread(new Runnable() {
                     @Override
-                    public void actionPerformed(ActionEvent actionEvent) {
-                        upnpService.getControlPoint().search(3);
-                        for(RemoteDevice remoteDevice : upnpService.getRegistry().getRemoteDevices()) {
+                    public void run() {
+                        while(true) {
                             try {
-                                URLConnection connection = remoteDevice.getIdentity().getDescriptorURL().openConnection();
-                                connection.getContent();
-                            } catch (IOException e) {
-                                upnpService.getRegistry().removeDevice(remoteDevice);
+                                upnpService.getControlPoint().search(3);
+                                for(RemoteDevice remoteDevice : upnpService.getRegistry().getRemoteDevices()) {
+                                    try {
+                                        URLConnection connection = remoteDevice.getIdentity().getDescriptorURL().openConnection();
+                                        connection.getContent();
+                                    } catch (IOException e) {
+                                        upnpService.getRegistry().removeDevice(remoteDevice);
+                                    }
+                                }
+
+                                Thread.sleep(4000);
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
                         }
                     }
                 });
-                t.start();
+                thread.setDaemon(true);
+                thread.start();
 
                 callback.accept(upnpService.get());
             }
