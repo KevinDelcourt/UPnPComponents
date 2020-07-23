@@ -25,8 +25,30 @@ public class DesktopUpnpServiceStore {
                 }
             });
 
-            upnpService.getControlPoint().search(3);
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while(true) {
+                        try {
+                            upnpService.getControlPoint().search(5);
+                            for(RemoteDevice remoteDevice : upnpService.getRegistry().getRemoteDevices()) {
+                                try {
+                                    URLConnection connection = remoteDevice.getIdentity().getDescriptorURL().openConnection();
+                                    connection.getContent();
+                                } catch (IOException e) {
+                                    upnpService.getRegistry().removeDevice(remoteDevice);
+                                }
+                            }
 
+                            Thread.sleep(10000);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+            thread.setDaemon(true);
+            thread.start();
         }
         return upnpService;
     }
