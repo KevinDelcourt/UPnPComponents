@@ -31,7 +31,7 @@ public class AndroidUpnpServiceStore {
             public void onServiceConnected(ComponentName className, IBinder service) {
                 upnpService = (AndroidUpnpService) service;
 
-                Timer t = new Timer(3000, new ActionListener() {
+                Timer t = new Timer(4000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent actionEvent) {
                         upnpService.getControlPoint().search(3);

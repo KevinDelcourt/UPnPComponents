@@ -25,7 +25,7 @@ public class DesktopUpnpServiceStore {
                 }
             });
 
-            Timer t = new Timer(3000, new ActionListener() {
+            Timer t = new Timer(4000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     upnpService.getControlPoint().search(3);
