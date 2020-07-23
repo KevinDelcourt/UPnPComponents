@@ -1,4 +1,4 @@
-package com.irit;
+package com.irit.stores;
 
 import org.fourthline.cling.UpnpService;
 import org.fourthline.cling.UpnpServiceImpl;

@@ -1,4 +1,4 @@
-package com.irit;
+package com.irit.stores;
 
 import android.app.Activity;
 import android.content.ComponentName;

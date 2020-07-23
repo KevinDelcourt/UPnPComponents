@@ -1,5 +1,7 @@
-package com.irit;
+package com.irit.stores;
 
+import com.irit.stores.AndroidUpnpServiceStore;
+import com.irit.stores.DesktopUpnpServiceStore;
 import org.fourthline.cling.UpnpService;
 import org.fourthline.cling.model.meta.LocalDevice;
 

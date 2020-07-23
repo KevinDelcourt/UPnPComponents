@@ -1,8 +1,7 @@
-package com.irit;
+package com.irit.factory;
 
 import com.irit.dependencyinjection.DependencyInjectionService;
-import org.fourthline.cling.UpnpService;
-import org.fourthline.cling.UpnpServiceImpl;
+import com.irit.stores.UpnpServiceStore;
 import org.fourthline.cling.binding.annotations.AnnotationLocalServiceBinder;
 import org.fourthline.cling.model.DefaultServiceManager;
 import org.fourthline.cling.model.meta.LocalService;
