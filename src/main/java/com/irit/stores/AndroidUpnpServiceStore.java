@@ -30,7 +30,7 @@ public class AndroidUpnpServiceStore {
         serviceConnection = new ServiceConnection() {
             public void onServiceConnected(ComponentName className, IBinder service) {
                 upnpService = (AndroidUpnpService) service;
-
+                upnpService.getControlPoint().search(5);
                 callback.accept(upnpService.get());
             }
             public void onServiceDisconnected(ComponentName className) {

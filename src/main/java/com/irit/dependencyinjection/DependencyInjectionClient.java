@@ -39,7 +39,7 @@ public class DependencyInjectionClient implements Runnable {
 
                     if(!bound) {
                         requiredBinding.setDevice(null);
-                        upnpService.getControlPoint().search(5);
+                        upnpService.getControlPoint().search(3);
                     }
                 }
             });

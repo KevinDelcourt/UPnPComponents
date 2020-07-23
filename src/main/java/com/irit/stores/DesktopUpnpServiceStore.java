@@ -17,7 +17,7 @@ public class DesktopUpnpServiceStore {
     public static UpnpService getUpnpService() {
         if(upnpService == null) {
             upnpService = new UpnpServiceImpl();
-
+            upnpService.getControlPoint().search(5);
             Runtime.getRuntime().addShutdownHook(new Thread() {
                 @Override
                 public void run() {
