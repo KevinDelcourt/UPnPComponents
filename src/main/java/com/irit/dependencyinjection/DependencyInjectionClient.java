@@ -30,21 +30,31 @@ public class DependencyInjectionClient implements Runnable {
                 public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
                     boolean bound = false;
                     for(Device device : upnpService.getRegistry().getDevices()){
-                        bound = bound || bindIfDeviceRequired(device, requiredBinding);
+                        try {
+                            bound = bound || bindIfDeviceRequired(device, requiredBinding);
+                        } catch (IOException e) {
+                            upnpService.getRegistry().removeDevice((RemoteDevice)device);
+                        }
                     }
 
                     if(!bound) {
                         requiredBinding.setDevice(null);
+                        upnpService.getControlPoint().search(5);
                     }
                 }
             });
         }
     }
 
-    private boolean bindIfDeviceRequired(Device device, RequiredBinding requiredBinding){
+    public static boolean bindIfDeviceRequired(Device device, RequiredBinding requiredBinding) throws IOException {
         if(device.getIdentity().getUdn().toString().equals(requiredBinding.getDesiredUDN()) &&
                 device.findService(requiredBinding.getServiceId()) != null) {
-            System.out.println("ok " + device);
+            if(device instanceof RemoteDevice) {
+                URLConnection connection = ((RemoteDevice) device).getIdentity().getDescriptorURL().openConnection();
+                connection.getContent();
+            }
+
+            System.out.println("Binding to : " + device);
             requiredBinding.setDevice(device);
             return true;
         }

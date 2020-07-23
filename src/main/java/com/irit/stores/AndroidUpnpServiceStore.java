@@ -31,31 +31,6 @@ public class AndroidUpnpServiceStore {
             public void onServiceConnected(ComponentName className, IBinder service) {
                 upnpService = (AndroidUpnpService) service;
 
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        while(true) {
-                            try {
-                                upnpService.getControlPoint().search(3);
-                                for(RemoteDevice remoteDevice : upnpService.getRegistry().getRemoteDevices()) {
-                                    try {
-                                        URLConnection connection = remoteDevice.getIdentity().getDescriptorURL().openConnection();
-                                        connection.getContent();
-                                    } catch (IOException e) {
-                                        upnpService.getRegistry().removeDevice(remoteDevice);
-                                    }
-                                }
-
-                                Thread.sleep(4000);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                });
-                thread.setDaemon(true);
-                thread.start();
-
                 callback.accept(upnpService.get());
             }
             public void onServiceDisconnected(ComponentName className) {

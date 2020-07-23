@@ -1,8 +1,13 @@
 package com.irit.dependencyinjection;
 
+import org.fourthline.cling.model.meta.Device;
 import org.fourthline.cling.model.meta.RemoteDevice;
 import org.fourthline.cling.registry.DefaultRegistryListener;
 import org.fourthline.cling.registry.Registry;
+
+import java.io.IOException;
+
+import static com.irit.dependencyinjection.DependencyInjectionClient.bindIfDeviceRequired;
 
 public class DependencyInjectionClientRegistryListener extends DefaultRegistryListener {
 
@@ -17,11 +22,9 @@ public class DependencyInjectionClientRegistryListener extends DefaultRegistryLi
         System.out.println("Device added : " + device.getIdentity().toString());
 
         for(RequiredBinding requiredBinding : dependencyInjectionService.getRequired().values()) {
-            if(device.getIdentity().getUdn().toString().equals(requiredBinding.getDesiredUDN()) &&
-                    device.findService(requiredBinding.getServiceId()) != null) {
-                System.out.println("Binding to : " + device);
-                requiredBinding.setDevice(device);
-            }
+            try {
+                bindIfDeviceRequired(device, requiredBinding);
+            } catch (IOException ignored) { }
         }
     }
 
