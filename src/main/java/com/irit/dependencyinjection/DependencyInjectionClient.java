@@ -65,22 +65,6 @@ public class DependencyInjectionClient implements Runnable {
                     new DependencyInjectionClientRegistryListener(dependencyInjectionService)
             );
 
-            Timer t = new Timer(3000, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    upnpService.getControlPoint().search(3);
-                    for(RemoteDevice remoteDevice : upnpService.getRegistry().getRemoteDevices()) {
-                        try {
-                            URLConnection connection = remoteDevice.getIdentity().getDescriptorURL().openConnection();
-                            connection.getContent();
-                        } catch (IOException e) {
-                            upnpService.getRegistry().removeDevice(remoteDevice);
-                        }
-                    }
-                }
-            });
-            t.start();
-
         } catch (Exception ex) {
             System.err.println("Exception occured: " + ex);
             System.exit(1);

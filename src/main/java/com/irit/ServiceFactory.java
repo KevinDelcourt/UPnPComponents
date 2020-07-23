@@ -2,6 +2,7 @@ package com.irit;
 
 import com.irit.dependencyinjection.DependencyInjectionService;
 import org.fourthline.cling.UpnpService;
+import org.fourthline.cling.UpnpServiceImpl;
 import org.fourthline.cling.binding.annotations.AnnotationLocalServiceBinder;
 import org.fourthline.cling.model.DefaultServiceManager;
 import org.fourthline.cling.model.meta.LocalService;
@@ -24,13 +25,17 @@ public class ServiceFactory {
     }
 
     public static LocalService<DependencyInjectionService> makeDependencyInjectionService(
-            Map<String, ServiceId> requiredServicesMap,
-            UpnpService upnpService
+            Map<String, ServiceId> requiredServicesMap
     ){
+        if( UpnpServiceStore.getUpnpService() == null) {
+            System.err.println("UpnpService has not been initialized");
+            return null;
+        }
+
         LocalService<DependencyInjectionService> localService = makeLocalServiceFrom(DependencyInjectionService.class);
         localService.getManager().getImplementation().init(
                 requiredServicesMap,
-                upnpService
+                UpnpServiceStore.getUpnpService()
         );
 
         return localService;
