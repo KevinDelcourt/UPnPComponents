@@ -33,6 +33,7 @@ public class DependencyInjectionClient implements Runnable {
                         try {
                             bound = bound || bindIfDeviceRequired(device, requiredBinding);
                         } catch (IOException e) {
+                            e.printStackTrace();
                             upnpService.getRegistry().removeDevice((RemoteDevice)device);
                         }
                     }
