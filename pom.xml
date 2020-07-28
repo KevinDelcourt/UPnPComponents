@@ -6,7 +6,7 @@
 
   <groupId>com.irit</groupId>
   <artifactId>UPnPComponents</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
 
   <name>UPnPComponents</name>
   <url>https://github.com/KevinDelcourt/UPnPComponents</url>
