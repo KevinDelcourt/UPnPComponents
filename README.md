@@ -1,4 +1,4 @@
-# UPnP Components Library
+# UPnP Components Utility
 
 The goal of this library is to provide a lightweight API to build UPnP components that can be used by [OCE](https://github.com/SylvieTrouilhet/OCE). This library is an extension of the [Cling library](http://4thline.org/projects/cling/core/manual/cling-core-manual.xhtml) and is designed to be used on Android as well as on desktop OS.
 
