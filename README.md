@@ -319,3 +319,6 @@ After this, the component and service declaration part is the same as for deskto
 ### 3. Requiring a service
 
 This part is the same as for desktop.
+
+# Acknowledgment
+This work is part of the AILP (Assistance InteLligente et proactive en environnement Professionnel) project, which is supported by the French region Occitanie and the operational program FEDER-FSE Midi-Pyrénées et Garonne.
